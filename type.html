@@ -1,0 +1,123 @@
+﻿<!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="lib/css/base.css" />
+    <title>折疯了</title>
+</head>
+<body>
+    <div id="warp">
+    	<header class="typeHeader">
+            <h1>分类</h1>
+            <div class="search">
+                <input type="text" class="searchIpt" placeholder="寻找您最喜欢的宝贝" />
+                <input type="submit" class="seachBtn" value="搜索" />
+            </div>
+        </header>
+		<section class="mainctt typeBox on" id="typeMain">
+        	<div class="typeBoxWrap">
+                <ul class="typeBar">
+                    <li class="on" id="recommend"><a href="#recommend"><span class="recommend"></span><strong>推荐</strong></a><i class="arr"></i></li>
+                    <li id="clothing"><a href="#clothing" class="clothing"><span class="clothing"></span><strong>衣服</strong></a><i class="arr"></i></li>
+                    <li id="shoe"><a href="#shoe" class="shoe"><span class="shoe"></span><strong>鞋子</strong></a><i class="arr"></i></li>
+                    <li id="package"><a href="#package" class="package"><span class="package"></span><strong>包包</strong></a><i class="arr"></i></li>
+                    <li id="accessory"><a href="#accessory" class="accessory"><span class="accessory"></span><strong>配饰</strong></a><i class="arr"></i></li>
+                    <li id="homeFurnishing"><a href="#homeFurnishing" class="homeFurnishing"><span class="homeFurnishing"></span><strong>家居</strong></a><i class="arr"></i></li>
+                </ul>
+                <div class="typectt">
+                    <ul id="typeCtt">
+                        
+                    </ul>
+                </div>
+            </div>
+		</section>
+        <footer>
+            <ul class="footBar">
+                <li><a href="index.html"><span class="index"></span><strong>首页</strong></a></li>
+                <li><a href="type.html" class="on"><span class="classify"></span><strong>分类</strong></a></li>
+                <li><a href="match.html"><span class="match"></span><strong>搭配</strong></a></li>
+                <li><a href="my_index.html"><span class="home"></span><strong>我的</strong></a></li>
+            </ul>
+        </footer>
+    </div>
+	<script type="text/javascript" src="lib/js/zepto.js"></script>
+	<script type="text/javascript" src="lib/js/gmu.js"></script>
+	<script type="text/javascript" src="lib/js/template.min.js"></script>
+    <script type="text/javascript" src="lib/js/wookmark.js"></script>
+    
+	<script type="text/javascript" src="lib/js/base.js"></script>
+    <script id="typeTpl" type="text/html">
+		<%for(i = 0; i < list.length; i++) {%>
+			<li id="<%=list[i].id%>">
+				<div class="imgbox">
+					<a href="<%=list[i].link%>"><img src="<%=list[i].imgurl%>" /></a>
+				</div>
+				<a href="<%=list[i].link%>"><%=list[i].typeName%></a>
+			</li>
+		<%}%>
+	</script>
+	<script type="text/javascript">
+	$(function () {
+		$("#typeMain").css("height", window.innerHeight - $('footer').height())
+
+		new iScroll('typeMain');
+		
+		function loadPage(pageName){
+			window.scrollTo(0, 0);
+			$("#typeCtt").empty().addClass("on");
+			$.ajax({
+				url:"",
+				cache:false,
+				success:function(data){
+					var data={list:[
+						{id:1,imgurl:'lib/pic/clothing.png',typeName:"棉衣",link:'type_list.html'},
+						{id:2,imgurl:'lib/pic/c1.png',typeName:"羽绒服",link:'type_list.html'},
+						{id:3,imgurl:'lib/pic/clothing.png',typeName:"厚外套",link:'type_list.html'},
+						{id:4,imgurl:'lib/pic/c1.png',typeName:"套头毛巾",link:'type_list.html'},
+						{id:1,imgurl:'lib/pic/clothing.png',typeName:"棉衣",link:'type_list.html'},
+						{id:2,imgurl:'lib/pic/c1.png',typeName:"羽绒服",link:'type_list.html'},
+						{id:3,imgurl:'lib/pic/clothing.png',typeName:"厚外套",link:'type_list.html'},
+						{id:4,imgurl:'lib/pic/c1.png',typeName:"套头毛巾",link:'type_list.html'}
+					]}
+					var html = template.render("typeTpl", data);
+					var $list = $("#typeCtt");
+					$list.prepend(html);
+					$(".typeBar li").removeClass("on");
+					$("#"+pageName).addClass("on");
+				}
+			})
+		}
+		
+		var updatePage = function(){
+			var pageName = location.hash.replace('#', '');
+			if(pageName){
+				$("#main").removeClass("on");
+				loadPage(pageName);
+			}else{
+				loadPage('recommend');
+			}
+		}
+	
+		window.onhashchange = function(e){
+			updatePage();
+		}
+	
+		updatePage();
+		
+		function handerClick(hander){
+			var $handerLink=$(hander).find("a");
+			var tapevent = $.support.touch ? 'tap' : 'click';
+			$handerLink.on(tapevent,function(e){
+				$handerLink.removeClass("on");
+				$(this).addClass("on");
+			});
+		}
+		handerClick(".footBar");
+		
+	});
+
+	</script>
+</body>
+</html>
+

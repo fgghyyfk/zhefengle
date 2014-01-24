@@ -1,0 +1,82 @@
+﻿<!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="lib/css/base.css" />
+    <title>折疯了</title>
+</head>
+<body>
+    <div id="warp">
+        <header class="typeHeader">
+            <h1><a href="" class="return"></a>暖冬外套</h1>
+            <ul class="typeHeaerBar">
+                <li><a href="#tpl/type/typelist.html">毛昵外套</a></li>
+                <li><a href="#tpl/type/typelist.html">羽绒服</a></li>
+                <li><a href="#tpl/type/typelist.html">皮衣</a></li>
+            </ul>
+        </header>
+        
+		<section class="mainctt typeBox typelistBox" id="main">
+		</section>
+        <footer>
+            <ul class="footBar">
+                <li><a href="index.html"><span class="index"></span><strong>首页</strong></a></li>
+                <li><a href="type.html" class="on"><span class="classify"></span><strong>分类</strong></a></li>
+                <li><a href="javascript:;"><span class="match"></span><strong>搭配</strong></a></li>
+                <li><a href="javascript:;"><span class="home"></span><strong>我的</strong></a></li>
+            </ul>
+        </footer>
+    </div>
+	<script type="text/javascript" src="lib/js/zepto.js"></script>
+	<script type="text/javascript" src="lib/js/gmu.js"></script>
+	<script type="text/javascript" src="lib/js/template.min.js"></script>
+    <script type="text/javascript" src="lib/js/wookmark.js"></script>
+    
+	<script type="text/javascript" src="lib/js/base.js"></script>
+	<script type="text/javascript">
+	$(function () {
+		function loadPage(pageName){
+			window.scrollTo(0, 0);
+			$("#main").empty().addClass("on");
+			$.ajax({
+				url:pageName,
+				cache:false,
+				success:function(html){
+					$("#main").html(html);
+				}
+			})
+		}
+		
+		var updatePage = function(){
+			var pageName = location.hash.replace('#', '');
+			if(pageName){
+				$("#main").removeClass("on");
+				loadPage(pageName);
+			}else{
+				loadPage('tpl/type/typelist.html');
+			}
+		}
+	
+		window.onhashchange = function(e){
+			updatePage();
+		}
+	
+		updatePage();
+		
+		function handerClick(hander,item){
+			var $handerLink=$(hander).find(item);
+			var tapevent = $.support.touch ? 'tap' : 'click';
+			$handerLink.on(tapevent,function(e){
+				$handerLink.removeClass("on");
+				$(this).addClass("on");
+			});
+		}
+		handerClick(".typeHeaerBar","li");
+		handerClick(".footBar","a");
+	});
+
+	</script>
+</body>
+</html>
+

@@ -1,0 +1,100 @@
+﻿<!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="lib/css/base.css" />
+    <title>折疯了</title>
+</head>
+<body>
+    <div id="warp">
+        <header class="myHeader">
+            <h1><a href="my_index.html" class="return"></a>服装</h1>
+        </header>
+        
+		<section class="mainctt myDefaultList" id="main">
+        	<div id="typelistBox">
+                <div class="ui-refresh">
+                    <ul id="typelist" class="hotList">
+                        
+                    </ul>
+                    <div class="ui-refresh-down"></div>
+                </div>
+            </div>
+		</section>
+        <footer>
+            <ul class="footBar">
+                <li><a href="index.html"><span class="index"></span><strong>首页</strong></a></li>
+                <li><a href="type.html"><span class="classify"></span><strong>分类</strong></a></li>
+                <li><a href="match.html"><span class="match"></span><strong>搭配</strong></a></li>
+                <li><a href="my_index.html" class="on"><span class="home"></span><strong>我的</strong></a></li>
+            </ul>
+        </footer>
+    </div>
+    <script id="typelistTpl" type="text/html">
+    <%for(i = 0; i < list.length; i++) {%>
+		<li id="<%=list[i].id%>">
+			<div class="imgbox">
+				<a href="<%=list[i].link%>"><img src="<%=list[i].imgurl%>" /></a>
+			</div>
+			<div class="title"><a href="<%=list[i].link%>"><%=list[i].title%></a></div>
+			<div class="info">
+				<a href="javascript:;" class="like">1347</a>
+				<div class="price"><span>￥</span><%=list[i].price%></div>
+			</div>
+		</li>
+    <%}%>
+</script>
+	<script type="text/javascript" src="lib/js/zepto.js"></script>
+	<script type="text/javascript" src="lib/js/gmu.js"></script>
+	<script type="text/javascript" src="lib/js/template.min.js"></script>
+    <script type="text/javascript" src="lib/js/wookmark.js"></script>
+    
+	<script type="text/javascript" src="lib/js/base.js"></script>
+	<script type="text/javascript">
+	$(function () {
+		function loadData(){
+			var data={list:[
+				{id:1,imgurl:'lib/pic/ad2.jpg',title:"做工精细，面料舒适，图案又好看怎能不给自己备一件，最合适这个冬天啦做工精细",price:'350.00',like:1347,link:'detail.html'},
+				{id:2,imgurl:'lib/pic/ad2.jpg',title:"海马毛才质，时尚的流苏设计带给你的温暖享受",price:'350.00',like:1347,link:'detail1.html'},
+				{id:3,imgurl:'lib/pic/ad2.jpg',title:"海马毛才质，时尚的流苏设计带给你",price:'350.00',like:1347,link:'detail.html'},
+				{id:4,imgurl:'lib/pic/ad2.jpg',title:"做工精细，面料舒适，图案又好看怎能不给自己备一件，最合适这个冬天啦做工精细",price:'350.00',like:1347,link:'detail.html'},
+				{id:3,imgurl:'lib/pic/ad2.jpg',title:"海马毛才质，时尚的流苏设计带给你",price:'350.00',like:1347},
+				{id:4,imgurl:'lib/pic/ad2.jpg',title:"做工精细，面料舒适，图案又好看怎能不给自己备一件，最合适这个冬天啦做工精细",price:'350.00',like:1347,link:'detail.html'}
+			]}
+			var html = template.render("typelistTpl", data);
+			var $list = $("#typelist");
+			$list.prepend(html);
+			setTimeout(function(){
+				var options = {
+				  autoResize: true,
+				  container: $list,
+				  offset: 5, 
+				  itemWidth: 150 
+				};
+				$("#typelist li").wookmark(options);
+			},100)
+		}
+		loadData();
+		$(".ui-refresh").css("height", window.innerHeight - $('header').height() - $('footer').height()+106 ).refresh({
+			load: function (dir, type) {
+				var me = this;
+				$.ajax({
+					url:'',
+					cache:false,
+					success:function(data){
+						loadData(data);
+						me.afterDataLoading(dir);    //数据加载完成后改变状态
+					},
+					error:function(){
+						alert("加载失败")	;
+					}	
+				})
+			}
+		});
+	});
+
+	</script>
+</body>
+</html>
+

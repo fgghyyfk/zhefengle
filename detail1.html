@@ -1,0 +1,139 @@
+﻿<!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="lib/css/base.css" />
+    <title>折疯了</title>
+</head>
+<body>
+    <div id="warp">
+        <header class="detailHeader">
+            <h1><a href="type_list.html" class="return"></a><a href="index.html" class="returnIndex"></a>宝贝详情</h1>
+        </header>
+        
+		<section class="mainctt detail on" id="detailMain">
+        	<div class="detailInnerBox" id="detailInnerBox">
+            	
+            </div>
+		</section>
+        <footer>
+        	<div class="detailFooter">
+                <a href="javascript:;" class="contactSeller">联系卖家</a>
+                <a href="javascript:;" class="sc">加入购物车</a>
+                <a href="javascript:;" class="buy" id="buyNow">立即购买</a>
+            </div>
+        </footer>
+        <div id="buyDialog" class="buyDialog">
+        	
+        </div>
+    </div>
+    <script id="detailTpl" type="text/html">
+                <div class="detailInfoBox">
+                    <div class="imgbox">
+                        <img src="<%=imgurl%>" />
+                    </div>
+                    <div class="title"></div>
+                    <div class="info">
+                        <a href="" class="like"><%=like%>喜欢</a>
+                        <div class="price"><span>￥</span><%=price%>
+							<div class="ltitle"><%=title%></div>
+						</div>
+                    </div>
+					<div class="otherInfo">
+						<ul>
+							<li><strong>运费</strong><span>包邮</span></li>
+							<li><strong>销量</strong><span>258</span></li>
+							<li><strong>库存</strong><span>195</span></li>
+						</ul>
+					</div>
+					<div class="shopInfo">
+						<h3>店铺名称：文艺U品道<span class="attestation"></span></h3>
+						<ul>
+							<li><strong>款式新颖：4.6</strong><span class="up"></span><span>0%</span></li>
+							<li><strong>价格合理：4.5</strong><span class="down"></span><span> -2.17%</span></li>
+							<li><strong>质量满意：4.5</strong><span> -2.17%</span></li>
+							<li><strong>价格合理：4.5</strong><span> -2.17%</span></li>
+						</ul>
+					</div>
+                </div>
+                <div class="detailSmallText">
+                    <ul class="smallTextNav">
+						<li><a href="#tpl/detail/stDetails.html" id="stDetailsMenu" class="on">图文详情</a></li>
+						<li><a href="#tpl/detail/stSize.html" id="stSizeMenu">尺码说明</a></li>
+						<li><a href="#tpl/detail/stProduct.html" id="stProductMenu">产品介绍</a></li>
+						<li><a href="#tpl/detail/stEvaluate.html" id="stEvaluateMenu">入手评价</a></li>
+					</ul>
+					<div id="smallTextBox" class="smallTextBox">
+						
+					</div>
+                </div>
+	</script>
+	<script type="text/javascript" src="lib/js/zepto.js"></script>
+	<script type="text/javascript" src="lib/js/gmu.js"></script>
+	<script type="text/javascript" src="lib/js/template.min.js"></script>
+	<script type="text/javascript" src="lib/js/base.js"></script>
+	<script type="text/javascript">
+	$("#detailMain").css("height", window.innerHeight - $('header').height() - $('footer').height()+10)
+	var iscroll=new iScroll('detailMain');
+	$(function () {
+		var tapevent = $.support.touch ? 'tap' : 'click';
+		$("#buyNow").on(tapevent,function(){
+			if(!$("#buyBox").length){
+				$("#buyDialog").load("tpl/detail/buy.html").show();
+			}else{
+				$("#buyDialog").show();
+			}
+		})
+		
+		
+		function loadData(data){
+			var data={
+				title:'呢大衣这款真的超级爱超有型的哦还是很特别的蓝色系',
+				imgurl:'lib/pic/ad2.jpg',
+				like:'1123',
+				price:'1233.00',
+				comment:[
+					{id:1,headUrl:'lib/pic/head.jpg',name:"just赵cc",date:'12月18日 14：16',link:'javascript:;',content:'呢大衣这款真的超级爱超有型的哦还是很特别的蓝色系'},
+					{id:1,headUrl:'lib/pic/head.jpg',name:"just赵cc",date:'12月18日 14：16',link:'javascript:;',content:'呢大衣这款真的超级爱超有型的哦还是很特别的蓝色系'},
+					{id:1,headUrl:'lib/pic/head.jpg',name:"just赵cc",date:'12月18日 14：16',link:'javascript:;',content:'呢大衣这款真的超级爱超有型的哦还是很特别的蓝色系'}
+				]
+			}
+			var html = template.render("detailTpl", data);
+			var $list = $("#detailInnerBox");
+			$list.prepend(html);
+			iscroll.refresh();
+		}
+		loadData();
+		function loadPage(pageUrl){
+			window.scrollTo(0, 0);
+			$("#smallTextBox").empty();
+			$.ajax({
+				url:pageUrl,
+				cache:false,
+				success:function(html){
+					$("#smallTextBox").html(html);
+					iscroll.refresh();
+				}
+			})
+		}
+		var updatePage = function(){
+			var pageName = location.hash.replace('#', '');
+			if(pageName){
+				loadPage(pageName);
+			}else{
+				loadPage('tpl/detail/stDetails.html');
+			}
+		}
+	
+		window.onhashchange = function(e){
+			updatePage();
+		}
+	
+		updatePage();
+	});
+
+	</script>
+</body>
+</html>
+

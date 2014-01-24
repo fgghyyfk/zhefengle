@@ -1,0 +1,33 @@
+﻿<div class="stBox stSize">
+    <table class="defaultTable" id="stSize">
+    </table>
+</div>
+<script id="stSizeTpl" type="text/html">
+    <%for(i = 0; i < list.length; i++) {%>
+		<tr><td class="th"><%=list[i].key%></td><td><%=list[i].value%></td></tr>
+    <%}%>
+</script>
+<script type="text/javascript">
+$(function () {
+	function loadData(data){
+		var data={list:[
+			{key:"尺码",value:'均码'},
+			{key:"衣长",value:'72'},
+			{key:"衣长",value:'72'},
+			{key:"衣长",value:'72'},
+			{key:"衣长",value:'72'},
+			{key:"衣长",value:'72'},
+			{key:"衣长",value:'72'},
+			{key:"衣长",value:'72'}
+		]}
+		var html = template.render("stSizeTpl", data);
+		var $list = $("#stSize");
+		$list.prepend(html);
+	}
+	loadData();
+	$(".smallTextNav a").removeClass("on");
+	$("#stSizeMenu").addClass("on");
+});
+
+</script>
+

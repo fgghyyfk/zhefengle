@@ -1,0 +1,92 @@
+﻿<meta charset="UTF-8">
+<style>
+	.mainctt{background:#fff;}
+</style>
+<div id="boutiqueBox" class="indexPanel">
+    <div class="ui-refresh">
+        <div id="i_slider" class="i_slider">
+            <div>
+                <a href=""><img lazyload="lib/pic/ad1.jpg"></a>
+            </div>
+            <div>
+                <a href=""><img lazyload="lib/pic/ad1.jpg"></a>
+            </div>
+            <div>
+                <a href=""><img lazyload="lib/pic/ad1.jpg"></a>
+            </div>
+            <div>
+                <a href=""><img lazyload="lib/pic/ad1.jpg"></a>
+            </div>
+            <div>
+                <a href=""><img lazyload="lib/pic/ad1.jpg"></a>
+            </div>
+        </div> 
+        <div class="boutiqueList">
+            <ul id="boutiqueList">
+                
+            </ul>
+            <div class="ui-refresh-down"></div>
+        </div>
+    </div>
+</div>
+<script id="boutiqueTpl" type="text/html">
+    <%for(i = 0; i < list.length; i++) {%>
+		<li id="<%=list[i].id%>">
+			<div class="imgbox">
+				<a href="<%=list[i].link%>"><img class="ui-imglazyload" src="<%=list[i].imgurl%>" /></a>
+				<a href="javascript:;" class="like">1347</a>
+			</div>
+			<div class="title"><a href="<%=list[i].link%>"><%=list[i].title%></a></div>
+			<div class="info">
+				<a href="<%=list[i].link%>" class="buy">立即购买</a>
+				<div class="price"><span>￥</span><%=list[i].price%><strong>.00</strong></div>
+			</div>
+		</li>
+    <%}%>
+</script>
+<script type="text/javascript">
+$(function () {
+	function loadData(data){
+		var data={list:[
+			{id:1,imgurl:'lib/pic/ad2.jpg',title:"【 优店精选 】 做工精细，面料舒适，图案又好看，怎能不给自己备一件最合适这个冬天啦",link:'javascript:;',price:'350.00',like:1347},
+			{id:2,imgurl:'lib/pic/ad2.jpg',title:"【 优店精选 】 做工精细，面料舒适，图案又好看，怎能不给自己备一件最合适这个冬天啦",link:'javascript:;',price:'350.00',like:1347},
+			{id:3,imgurl:'lib/pic/ad2.jpg',title:"【 优店精选 】 做工精细，面料舒适，图案又好看，怎能不给自己备一件最合适这个冬天啦",link:'javascript:;',price:'350.00',like:1347}
+		]}
+		var html = template.render("boutiqueTpl", data);
+		var $list = $("#boutiqueList");
+		$list.prepend(html);
+		$(".headBar a").removeClass("on");
+		$("#boutiqueLink").addClass("on");
+		var options = {
+		  autoResize: true,
+		  container: $('#hotList'),
+		  offset: 5, 
+		  itemWidth: 150 
+		};
+		$("#hotList li").wookmark(options);
+		
+	}
+	loadData();
+    /* 滑动 */
+	$('#i_slider').slider({autoPlay:true,arrow:false,loop:true,viewNum:1,imgZoom:false});
+    $(".ui-refresh").css("height", window.innerHeight - $('header').height() - $('footer').height()+106 ).refresh({
+        load: function (dir, type) {
+            var me = this;
+			$.ajax({
+				url:'',
+				cache:false,
+				success:function(data){
+					loadData(data);
+					me.afterDataLoading(dir);    //数据加载完成后改变状态
+				},
+				error:function(){
+					alert("加载失败")	;
+				}	
+			})
+        }
+    });
+	
+});
+
+</script>
+
